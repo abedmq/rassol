@@ -7,6 +7,7 @@
 /.gitattributes
 /public/front/media
 /public/front/plugins
+/public/images
 /public/storage
 /storage/*.key
 /storage/app

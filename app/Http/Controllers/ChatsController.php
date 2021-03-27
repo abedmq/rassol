@@ -25,7 +25,7 @@ class ChatsController extends Controller {
 
         $groups = auth()->user()->getGroupsManage();
         if (!$groups->count() && auth()->user()->isAdmin())
-            return redirect('whatsapp/link')->with('error', 'الرجاء اختيار مجموعات لادارتها');
+            return redirect()->route('whatsapp.link')->with('error', 'الرجاء اختيار مجموعات لادارتها');
         $groupSelected = null;
         if ($id)
             $groupSelected = $groups->where('id', $id)->first();
