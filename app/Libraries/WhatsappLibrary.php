@@ -181,7 +181,7 @@ class WhatsappLibrary {
         return false;
     }
 
-    function prepareReq($user )
+    function prepareReq($user)
     {
         return Http::withHeaders([
             'X-Session-Token' => config('services.GO_TOKEN'),
@@ -192,6 +192,8 @@ class WhatsappLibrary {
     function checkResponse($response)
     {
         $data = $response->object();
+
+        \Log::info("whatsapp response ", (array)$response->object());
 
         if ($response->status() == 200)
         {

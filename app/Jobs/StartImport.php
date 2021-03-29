@@ -27,14 +27,15 @@ class StartImport implements ShouldQueue {
     public function handle()
     {
         //
-        \Log::info("start import 2 ",$this->user->toArray());
+        \Log::info("start import 2 ", $this->user->toArray());
 
         if ($import = $this->user->import)
         {
-            $import->update(['status'=>'in_progress']);
+            \Log::info("import data ", $import->toArray());
+            $import->update(['status' => 'in_progress']);
 
             $groups = $import->groups()->where('status', 0)->limit(50)->get();
-            Log::info("we will import " . $groups->count() . " group");
+            Log::info("we will import " . $groups->count() . " group : ", $groups->toArray());
             whatsapp()->connect($this->user);
             Log::info("whatsapp connected");
             if ($groups->count())
@@ -43,14 +44,13 @@ class StartImport implements ShouldQueue {
                 foreach ($groups as $group)
                 {
                     $count = $group->getInfo($this->user);
-                    if ($count !== false)
-                    {
-                        $group->pivot->update(['count' => $count, 'status' => 1]);
-                    }
+                    $group->pivot->update(['count' => $count, 'status' => 1]);
+
                 }
             }
-            if(!$import->groups()->where('status', 0)->limit(50)->count()){
-                $import->update(['status'=>'finish']);
+            if (!$import->groups()->where('status', 0)->limit(50)->count())
+            {
+                $import->update(['status' => 'finish']);
             }
 
 

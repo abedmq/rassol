@@ -13,18 +13,18 @@ class Import extends Model {
     protected $guarded=[];
     function groups()
     {
-        return $this->belongsToMany(Group::class, 'imports_groups');
+        return $this->belongsToMany(Group::class, 'imports_groups')->withPivot('status');
     }
 
     function scopeNotComplete($q)
     {
         $q->whereHas('groups', function ($q) {
-            $q->where('status', 1);
+            $q->where('status', 0);
         });
     }
 
     function scopeNotActive($q)
     {
-        $q->where('last_start', '<',Carbon::now()->subMinutes(config('env.minutes_to_restart_import', 30)));
+//        $q->where('last_start', '<',Carbon::now()->subMinutes(config('env.minutes_to_restart_import', 30)));
     }
 }

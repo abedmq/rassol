@@ -109,8 +109,9 @@ class Group extends Model {
     {
 //        $response     = Http::withHeaders(['X-Session-Token' => env('GO_TOKEN'), 'user_id' => auth()->id(), "remote_id" => $this->remote_id])
 //->post('http://' . env('GO_URL') . "/api/get-group-info");
-        \Log::info("start get contact for group :" . $this->id . ": with user " . $user->id);
+        \Log::info("start get contact for group :" . $this->id . ": with user " . $user->id . " ,remote_id:" . $this->remote_id);
         $response = whatsapp()->getGroupInfo($this->remote_id, $user);
+        \Log::info('get info response', ['res' => $response]);
 
         if (checkWhatsappResponse($response))
         {
