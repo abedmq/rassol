@@ -10,18 +10,37 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Contact extends Model {
+
     use Datatable;
 
     protected $guarded = [];
-    protected $appends=['mobile'];
+    protected $appends = ['mobile', 'username', 'country'];
 
-    function getMobileAttribute(){
+    function getMobileAttribute()
+    {
         return $this->getMobile();
     }
+
+    function getUsernameAttribute()
+    {
+        return $this->name ?: $this->getMobile();
+    }
+
+    function getCountryAttribute()
+    {
+        return __('countries.' . $this->country_code);
+    }
+
     function users()
     {
         return $this->belongsToMany(User::class, "contact_user");
     }
+
+    function tags()
+    {
+        return $this->belongsToMany(Tag::class, "contact_tag");
+    }
+
 
     function groups()
     {
@@ -66,6 +85,27 @@ class Contact extends Model {
     function getMobile()
     {
         return explode('@', $this->remote_id)[0];
+    }
+
+    function scopeSearch($q){
+        $search = request('query')['query']??'';
+        if($search){
+            $q->where('id',$search)
+                ->orWhere('mobile','like',"%$search%")
+                ->orWhere('name','like',"%$search%")
+                ->orWhere('status','like',"%$search%");
+        }
+        $groups_id = request('query')['group_id']??[];
+        if(sizeof($groups_id))
+            $q->whereHas('groups',function ($q) use($groups_id){
+                $q->whereIn('id',$groups_id) ;
+            });
+        $tag_id = request('query')['tag_id']??[];
+        if(sizeof($tag_id))
+            $q->whereHas('tags',function ($q) use($tag_id){
+                $q->whereIn('id',$tag_id) ;
+            });
+
     }
 
     function getInfoRequest()

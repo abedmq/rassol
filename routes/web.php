@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('images/{id}/{size?}', ['as' => 'image', 'uses' => 'ImageController@get']);
 
-Route::middleware("guest")->group(function () {
-    Auth::routes();
-});
+
+Auth::routes();
 
 Route::middleware("auth")->group(function () {
     Route::post('multifileupload', 'ImageController@store')->name('multifileupload');

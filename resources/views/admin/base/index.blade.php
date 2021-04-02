@@ -116,7 +116,7 @@
                             <div class="col-md-4 my-2 my-md-0">
                                 <div class="input-icon">
                                     <input type="text" class="form-control" placeholder="بحث"
-                                           id="kt_datatable_search_query"/>
+                                           id="query"/>
                                     <span>
 																	<i class="flaticon2-search-1 text-muted"></i>
 																</span>
@@ -125,9 +125,9 @@
                             @yield('filter')
                         </div>
                     </div>
-                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                        <a href="#" class="btn btn-light-primary px-6 font-weight-bold">بحث</a>
-                    </div>
+{{--                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">--}}
+{{--                        <a href="#" class="btn btn-light-primary px-6 font-weight-bold">بحث</a>--}}
+{{--                    </div>--}}
                 </div>
             </div>
             <!--end::Search Form-->

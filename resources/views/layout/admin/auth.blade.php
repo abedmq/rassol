@@ -41,7 +41,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <link rel="stylesheet" href="fonts/style.css">
+
+    <link rel="stylesheet" href="front/fonts/style.css">
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -117,7 +118,25 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--end::Page Scripts-->
 
 <script>
-
+    toastr.options = {
+        "rtl": true,
+        "direction": "rtl",
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-left",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

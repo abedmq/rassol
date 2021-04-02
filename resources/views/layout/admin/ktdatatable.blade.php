@@ -50,6 +50,7 @@
                 },
 
                 // columns definition
+
                 columns: [{
                     field: 'id',
                     title: '#',

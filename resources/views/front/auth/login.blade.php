@@ -80,13 +80,12 @@
 
         $('#kt_login_signin_form').on('submit', function (e) {
             e.preventDefault();
-            obj = $(this)
+            obj = this
             validation.validate().then(function (status) {
                 if (status == 'Valid') {
                     ajaxForm(obj);
 
                 } else {
-
                     // swal.fire({
                     //     text: "Sorry, looks like there are some errors detected, please try again.",
                     //     icon: "error",

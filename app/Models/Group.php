@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Datatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
@@ -10,6 +11,7 @@ use phpDocumentor\Reflection\Types\Self_;
 
 class Group extends Model {
 
+    use Datatable;
     protected $guarded = [];
 
     const MAX_CONTACT_COUNT = 2;
@@ -35,6 +37,12 @@ class Group extends Model {
     {
         return $this->belongsToMany(Contact::class, "group_admin")->withPivot("type");
     }
+
+    function tags()
+    {
+        return $this->belongsToMany(Tag::class, "group_tag");
+    }
+
 
     function managers()
     {

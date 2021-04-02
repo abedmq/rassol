@@ -64,4 +64,5 @@ class LoginController extends Controller {
     {
         return $this->response(['status' => 'fail', 'msg' => trans('auth.failed')]);
     }
+
 }

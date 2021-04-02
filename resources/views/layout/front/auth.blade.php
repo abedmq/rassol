@@ -30,7 +30,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="front/plugins/global/plugins.bundle.rtl.css" rel="stylesheet" type="text/css"/>
     <link href="front/plugins/custom/prismjs/prismjs.bundle.rtl.css" rel="stylesheet" type="text/css"/>
     <link href="front/css/style.bundle.rtl.css" rel="stylesheet" type="text/css"/>
-    <link href="front/fonts/style.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="front/fonts/style.css">
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
     <!--end::Layout Themes-->
@@ -90,7 +91,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--end::Main-->
 <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
 <!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {
+
+<script>
+    var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
         "colors": {
             "theme": {
@@ -142,6 +145,17 @@ License: You must have a valid license purchased only from themeforest(the above
         },
         "font-family": "Poppins"
     };
+</script>
+<!--end::Global Config-->
+<!--begin::Global Theme Bundle(used by all pages)-->
+<script src="front/plugins/global/plugins.bundle.js"></script>
+<script src="front/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="front/js/scripts.bundle.min.js"></script>
+<!--end::Global Theme Bundle-->
+<!--begin::Page Scripts(used by this page)-->
+{{--<script src="front/js/pages/custom/login/login-3.js"></script>--}}
+<!--end::Page Scripts-->
+<script>
     toastr.options = {
         "rtl": true,
         "direction": "rtl",
@@ -161,20 +175,6 @@ License: You must have a valid license purchased only from themeforest(the above
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
-</script>
-
-<!--end::Global Config-->
-<!--begin::Global Theme Bundle(used by all pages)-->
-<script src="front/plugins/global/plugins.bundle.js"></script>
-<script src="front/plugins/custom/prismjs/prismjs.bundle.js"></script>
-<script src="front/js/scripts.bundle.min.js"></script>
-<!--end::Global Theme Bundle-->
-<!--begin::Page Scripts(used by this page)-->
-{{--<script src="front/js/pages/custom/login/login-3.js"></script>--}}
-<!--end::Page Scripts-->
-
-<script>
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

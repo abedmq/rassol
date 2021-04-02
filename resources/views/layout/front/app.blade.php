@@ -30,7 +30,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="front/plugins/global/plugins.bundle.rtl.css" rel="stylesheet" type="text/css"/>
     <link href="front/plugins/custom/prismjs/prismjs.bundle.rtl.css" rel="stylesheet" type="text/css"/>
     <link href="front/css/style.bundle.rtl.css" rel="stylesheet" type="text/css"/>
-    
+
+    <link rel="stylesheet" href="front/fonts/style.css">
     <!--end::Global Theme Styles-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

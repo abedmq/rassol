@@ -6,18 +6,31 @@
     });
 
     function ajaxForm(obj) {
-        obj.find('.loader,.loader-al').show();
-        obj.find('[type=submit]').attr('disabled', true);
-        obj.find('[type=submit]').addClass('loading');
+        $(obj).find('.loader,.loader-al').show();
+        $(obj).find('[type=submit]').attr('disabled', true);
+        $(obj).find('[type=submit]').addClass('loading');
 
-        let method = obj.attr('method');
-        if (obj.find('[name=_method]').length)
-            method = obj.find('[name=_method]').val();
+        let method = $(obj).attr('method');
+        if ($(obj).find('[name=_method]').length)
+            method = $(obj).find('[name=_method]').val();
+
+        var formData = new FormData(obj);
+        let  imageoption = {
+            contentType: false,
+            processData: false,
+        };
+
+        if(method=='put') {
+            formData = $(obj).serialize();
+            imageoption={};
+        }
+
         $.ajax({
-            url: obj.attr('action'),
+            url: $(obj).attr('action'),
             method: method,
-            data: obj.serialize(),
-            dataType: "json"
+            data: formData,
+            cache:false,
+           ...imageoption
         }).done(function (data) {
 
             $.ajaxSetup({
@@ -34,12 +47,12 @@
                         showMsg('<?php echo e(__('تم')); ?>', data.msg, data.redirect_to);
                 }
 
-                if (obj.data('clear') != 'no' && data.clear != 'no')
-                    obj.find('input,textarea').not('.readonly,.notchange').val('');
+                if ($(obj).data('clear') != 'no' && data.clear != 'no')
+                    $(obj).find('input,textarea').not('.readonly,.notchange').val('');
 
-                if (obj.data('callback')) {
-                    var callback = obj.data('callback');
-                    window[callback](data, obj);
+                if ($(obj).data('callback')) {
+                    var callback = $(obj).data('callback');
+                    window[callback](data, $(obj));
                 }
             } else {
                 showMsgError('<?php echo e(__('خطأ')); ?>', data.msg);
@@ -47,9 +60,9 @@
         }).fail(function (data) {
             ajaxFail(data);
         }).always(function () {
-            obj.find('.loader,.loader-al').hide();
-            obj.find('[type=submit]').attr('disabled', false);
-            obj.find('[type=submit]').removeClass('loading');
+            $(obj).find('.loader,.loader-al').hide();
+            $(obj).find('[type=submit]').attr('disabled', false);
+            $(obj).find('[type=submit]').removeClass('loading');
         })
 
         return false;
@@ -97,8 +110,8 @@
 
     $('.ajax-form').submit(function (e) {
         e.preventDefault();
-        obj = $(this);
-        if (!obj.valid())
+        obj = this;
+        if (!$(this).valid())
             return false;
         ajaxForm(obj)
     })

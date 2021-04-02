@@ -1,11 +1,11 @@
 <?php
 
 
-Route::middleware("guest:admin")->group(function () {
-    Auth::routes();
-});
+Auth::routes();
 
 Route::middleware("auth:admin")->group(function () {
+    Route::get('profiles', 'ProfileController@index')->name('profiles.index');
+    Route::post('profiles/update', 'ProfileController@update')->name('profiles.update');
     Route::get('/', "HomeController@index")->name('home');
 
     Route::resource('users', 'UserController');
@@ -13,6 +13,7 @@ Route::middleware("auth:admin")->group(function () {
     Route::resource('fields', 'FieldsController');
     Route::resource('groups', 'GroupController');
     Route::resource('contacts', 'ContactsController');
+    Route::resource('packages', 'PackagesController');
 
 });
 

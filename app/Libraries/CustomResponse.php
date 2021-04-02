@@ -27,9 +27,10 @@ class CustomResponse implements Responsable {
         return $this;
     }
 
-    function view($name): self
+    function view($name, $var = []): self
     {
         $this->viewName = $name;
+        $this->with=array_merge($this->with,$var);
         return $this;
     }
 

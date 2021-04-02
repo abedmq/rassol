@@ -4,8 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class GroupTag extends Migration
-{
+class GroupTag extends Migration {
+
     /**
      * Run the migrations.
      *
@@ -14,6 +14,11 @@ class GroupTag extends Migration
     public function up()
     {
         //
+        Schema::create('group_tag', function (Blueprint $table) {
+            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('group_id');
+            $table->primary('group_id', 'contact_id');
+        });
     }
 
     /**
@@ -24,5 +29,6 @@ class GroupTag extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('group_tag');
     }
 }

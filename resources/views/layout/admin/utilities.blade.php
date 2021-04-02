@@ -1,3 +1,7 @@
+<form action="{{route('admin.logout')}}" method="post" class="hidden logout-form">
+    @csrf
+</form>
+
 <script>
     function showLoader(obj) {
         obj.append('<i class="fas fa-spinner fa-spin link-loader"></i>');
@@ -10,7 +14,7 @@
     var showMsgError = function (title, msg) {
 
         swal.fire({
-            text: msg,
+            html: msg,
             icon: "error",
             buttonsStyling: false,
             confirmButtonText: "تم",
@@ -40,5 +44,10 @@
             }, 1500)
         // });
     }
+
+    $('.logout').click(function (e){
+        e.preventDefault();
+        $('.logout-form').submit();
+    })
 
 </script>

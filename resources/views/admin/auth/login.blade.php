@@ -125,7 +125,7 @@
 
         $('#kt_login_signin_form').on('submit', function (e) {
             e.preventDefault();
-            obj=$(this)
+            obj=this
             validation.validate().then(function (status) {
                 if (status == 'Valid') {
                     ajaxForm(obj);

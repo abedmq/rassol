@@ -17,8 +17,8 @@ trait Datatable {
 
 
         $pagination = $request->get('pagination');
-        $page       = $pagination['page'];
-        $perpage    = $pagination['perpage'];
+        $page       = $pagination['page'] ?? 1;
+        $perpage    = $pagination['perpage'] ?? 10;
 
 
         $start  = $perpage * ($page - 1);
@@ -30,7 +30,10 @@ trait Datatable {
         $sort = $request->get('sort');
 
 
-        $items->orderBy($sort['field']??'id',$sort['sort']??'asc');
+        $orderColumn = $sort['field'] ?? 'id';
+        if ($orderColumn == 'RecordID')
+            $orderColumn = 'id';
+        $items->orderBy($orderColumn, $sort['sort'] ?? 'asc');
         $items = $items->skip($start)->take($length)->get();
 
 

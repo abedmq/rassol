@@ -14,6 +14,11 @@ class ContactTag extends Migration
     public function up()
     {
         //
+        Schema::create('contact_tag',function (Blueprint $table){
+            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('contact_id');
+            $table->primary('tag_id','contact_id');
+        });
     }
 
     /**
@@ -24,5 +29,6 @@ class ContactTag extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('contact_tag');
     }
 }

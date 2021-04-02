@@ -205,6 +205,25 @@
                                             <!--end::Wizard Step 2-->
                                             <!--begin::Wizard Step 3-->
                                             <div class="my-5 step" data-wizard-type="step-content">
+                                                <div class="alert alert-custom alert-light-info fade show mb-10"
+                                                     role="alert">
+                                                    <div class="alert-icon">
+<span class="svg-icon svg-icon-info svg-icon-2x">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+         viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"/>
+        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+        <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1"/>
+        <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1"/>
+    </g>
+</svg>
+    <!--end::Svg Icon--></span>
+                                                    </div>
+                                                    <div class="alert-text">
+                                                        قم بتعيين المجموعات التي تريد التحكم بها من مرسول APP                                                    </div>
+                                                </div>
+
                                                 <h5 class="mb-10 font-weight-bold text-dark">اختيار المجموعات</h5>
                                                 <!--begin::Group-->
 
@@ -212,7 +231,9 @@
                                                 <div id="whatsapp-group">
 
                                                     <p>
+                                                        جاري اظهار القروبات الخاصة بك .
                                                         <i class="fa fa-spinner fa-spin"></i>
+
                                                     </p>
                                                 </div>
 

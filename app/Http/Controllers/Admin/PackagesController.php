@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\FieldRequest;
-use App\Models\Field;
+use App\Http\Requests\Admin\PackageRequest;
+use App\Models\Package;
 
-class FieldsController extends BaseController {
+class PackagesController extends BaseController {
 
-    protected $modelClass = Field::class;
-    protected $title      = 'المجالات';
-    protected $route      = 'fields';
+    protected $modelClass = Package::class;
+    protected $title      = 'الباقات';
+    protected $route      = 'packages';
 
 
-    function store(FieldRequest $request)
+    function store(PackageRequest $request)
     {
         return self::saveData($request->validated(), $request->id);
+    }
+
+    function update(Package $package, PackageRequest $request)
+    {
+        return self::saveData($request->validated(), $package);
     }
 
 }

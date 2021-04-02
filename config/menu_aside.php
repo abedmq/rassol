@@ -30,6 +30,10 @@ return [
                     'title' => 'اضافة',
                     'page'  => 'admin/users/create',
                 ],
+                [
+                    'title' => 'الباقات',
+                    'page'  => 'admin/packages',
+                ],
             ],
         ],
         [

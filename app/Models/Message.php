@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Datatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,7 @@ use Illuminate\Support\Str;
 
 class Message extends Model {
 
+    use Datatable;
     protected $fillable = ['text', 'type', 'url', 'deleted_at', 'sending_error'];
 
     protected $dates = ['deleted_at'];

@@ -75,6 +75,17 @@ class BaseController extends Controller {
         //
         return $this->response()->view($this->prefix . $this->route . '.create');
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+        $item=$this->model->findOrFail($id);
+        return $this->response()->view($this->prefix . $this->route . '.edit',compact('item'));
+    }
 
     function saveData($data, $item = null)
     {

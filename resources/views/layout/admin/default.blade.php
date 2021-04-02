@@ -57,7 +57,28 @@
     <script src="{{ asset($script) }}" type="text/javascript"></script>
 @endforeach
 
+
+
 <script>
+    toastr.options = {
+        "rtl": true,
+        "direction": "rtl",
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-left",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
     var datatable;
     $.ajaxSetup({
         headers: {

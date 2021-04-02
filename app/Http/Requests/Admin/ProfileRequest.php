@@ -4,14 +4,15 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest {
+class ProfileRequest extends FormRequest {
 
     public function rules()
     {
         return [
-            'email'    => 'required|unique:users',
-            'name'     => 'required',
-            'password' => 'required|min:8',
+//            'email'    => 'required|unique:admins,email,'.auth('admin')->id(),
+            'name'     => 'required|min:3',
+            'password' => 'nullable|min:6|confirmed',
+            'image'=>'nullable|image'
         ];
     }
 

@@ -13,7 +13,7 @@ class CreatePackage extends Migration {
      */
     public function up()
     {
-        Schema::create('package', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('price');
@@ -31,6 +31,6 @@ class CreatePackage extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('package');
+        Schema::dropIfExists('packages');
     }
 }
