@@ -54,7 +54,7 @@
     font-style: normal
 }
 
-span, h1, h2, h3, h4, h5, h6, div, b, strong, p, section, ul, li {
+span, h1, h2, h3, h4, h5, h6, b, strong, p, section, ul, li {
     scroll-behavior: smooth;
     font-family: 'FFShamelFamily', 'Gotham';
 }
