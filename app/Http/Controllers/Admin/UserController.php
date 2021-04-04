@@ -60,9 +60,10 @@ class UserController extends BaseController {
      * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         //
+        $user = User::find($id);
         return $this->response()->with('item', $user)->view('admin.users.edit');
     }
 

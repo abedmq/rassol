@@ -18,10 +18,15 @@ class StartImport implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $user;
+    /**
+     * @var false
+     */
+    private $isFull;
 
-    public function __construct($user)
+    public function __construct($user, $isFull = false)
     {
-        $this->user = $user;
+        $this->user   = $user;
+        $this->isFull = $isFull;
     }
 
     public function handle()
@@ -34,7 +39,10 @@ class StartImport implements ShouldQueue {
             \Log::info("import data ", $import->toArray());
             $import->update(['status' => 'in_progress']);
 
-            $groups = $import->groups()->where('status', 0)->limit(50)->get();
+            $groups = $import->groups()->where('status', 0);
+            if (!$this->isFull)
+                $groups->limit(50);
+            $groups = $groups->get();
             Log::info("we will import " . $groups->count() . " group : ", $groups->toArray());
             whatsapp()->connect($this->user);
             Log::info("whatsapp connected");
