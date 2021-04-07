@@ -35,7 +35,7 @@
                                                              style="    width: 200px;    height: auto;    animation: none;"
                                                              class="login-loader"
                                                              alt="">
-                                                        <img src="22.png" class="qrcode-img" width="100%" alt=""
+                                                        <img class="qrcode-img" width="100%" alt=""
                                                              style="    width: 200px;    height: auto;    animation: none;display:none;">
                                                         <p style="display: none;" class="login-error">
                                                             حصل خطأ اثناء

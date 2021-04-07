@@ -67,8 +67,9 @@ class WhatsappController extends Controller {
             $user = auth()->user();
             if ($user->detail && $user->detail->wid != $responseData->wid)
             {
-                whatsapp()->logout();
                 $id = auth()->user()->getGoAuth(true);
+                whatsapp()->logout();
+
                 return $this->response()->error("الرجاء تسجيل الدخول بنفس الرقم المسجل لدينا")->with('id', $id);
             }
             $data                  = [];
