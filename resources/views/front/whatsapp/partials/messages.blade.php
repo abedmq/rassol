@@ -16,7 +16,7 @@
                 </div>
                 <div class="inline-msg-item msg-right mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">
                     @if($message->type=='image')
-                        <img src="{{$message->getImage()}}" style="width: 100%" alt="">
+                        <img src="{{$message->getImage()}}" style="width: 20px;height:20px;margin-right: 3px" alt="">
                     @endif
 
                     {!! $message->getText() !!}

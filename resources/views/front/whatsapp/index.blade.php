@@ -410,7 +410,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <label for=""><strong>*</strong>لاختيار جميع الدول اترك الحقل فارغا </label>
+                                <label for=""><strong>*</strong>لاختيار جميع المشرفين اترك الحقل فارغا </label>
                             </div>
 
                             <div class="form-group m-form__group {{$errors->has('count')?"has-danger":""}}">

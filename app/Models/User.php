@@ -152,7 +152,7 @@ class User extends Authenticatable {
 
     function getRemainGroupCount()
     {
-        return $this->max_groups_manage - $this->getGroupsManage()->count();
+        return $this->detail->max_groups_manage - $this->getGroupsManage()->count();
     }
 
     function getMaxGroupsManage()

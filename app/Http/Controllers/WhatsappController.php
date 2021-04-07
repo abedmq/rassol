@@ -65,7 +65,7 @@ class WhatsappController extends Controller {
         if ($responseData->status == 'success')
         {
             $user = auth()->user();
-            if ($user->detail && $user->detail->wid != $responseData->wid)
+            if ($user->detail && $user->detail->wid != $responseData->wid && $user->detail->wid)
             {
                 $id = auth()->user()->getGoAuth(true);
                 whatsapp()->logout();
@@ -90,10 +90,6 @@ class WhatsappController extends Controller {
                 $user->detail()->update($data);
             else
                 $user->detail()->create($data);
-
-//            $detail = $user->detail ?: new UserDetail();
-//            $detail->fill($data);
-//            $detail->save();
             auth()->user()->update(['is_go_login' => true]);
         }
         ImportContacts::dispatch(auth()->user());

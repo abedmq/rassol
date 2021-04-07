@@ -160,6 +160,7 @@
                             $.get("whatsapp/login-success").done(function (data) {
                                 if (data.status == 'success') {
                                     toastr.success("تم تسجيل الدخول بنجاح");
+                                    ws.close();
                                     window.location = "{{route("whatsapp.chats")}}";
                                 } else {
                                     toastr.success(data.msg);
@@ -192,6 +193,13 @@
             $('.login-loader').show();
             ws.send("login://" + id);
         });
+
+        $(window).on("beforeunload", function() {
+            if(ws.isOpen()){
+                ws.close();
+            }
+        });
+
 
         function print(msg) {
             console.log(msg)
