@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\Types\Self_;
 class Group extends Model {
 
     use Datatable;
+
     protected $guarded = [];
 
     const MAX_CONTACT_COUNT = 2;
@@ -119,12 +120,26 @@ class Group extends Model {
 //->post('http://' . env('GO_URL') . "/api/get-group-info");
         \Log::info("start get contact for group :" . $this->id . ": with user " . $user->id . " ,remote_id:" . $this->remote_id);
         $response = whatsapp()->getGroupInfo($this->remote_id, $user);
-        \Log::info('get info response', ['res' => $response]);
+        \Log::info('get info response  ', ['res' => $response]);
 
         if (checkWhatsappResponse($response))
         {
+
             $responseText = $response->msg;
-            $groupInfo    = json_decode($responseText);
+            $profile      = json_decode($response->profile);
+
+            if ((isset($profile->status) && $profile->status) || json_last_error())
+            {
+                $this->update(['image' => 'default']);
+            } else
+            {
+                $name = "images/" . get_image_name($profile->eurl);
+
+                Storage::put($name, file_get_contents($profile->eurl));
+                $this->update(['image' => $name]);
+            }
+
+            $groupInfo = json_decode($responseText);
             if (!json_last_error())
             {
                 if (!isset($groupInfo->status))
@@ -132,16 +147,7 @@ class Group extends Model {
                     return $this->addData($groupInfo, $user);
                 }
             }
-            $profile    = json_decode($response->profile);
-            if ((isset($profile->status) && $profile->status)||json_last_error())
-            {
-                $this->update(['image' => 'default']);
-            } else
-            {
-                $name = "images/" . get_image_name($profile->eurl);
-                Storage::put('public/' . $name, file_get_contents($profile->eurl));
-                $this->update(['image' => $name]);
-            }
+
 
         } else
         {

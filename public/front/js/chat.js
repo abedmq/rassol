@@ -57,7 +57,7 @@ var KTAppChat = function () {
 					}
 
 					// Remove additional space
-					height = height - 2;
+					height = height - 55;
 
 					return height;
 				}

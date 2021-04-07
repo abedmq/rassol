@@ -136,12 +136,12 @@
             ws.onopen = function (evt) {
                 ws.send("login://" + id);
             }
-            ws.onclose = function (evt) {
-                showErrorLogin();
-                toastr.error("حصل خطأ فني الرجاء النواصل مع الادارة");
-
-                ws = null;
-            }
+            // ws.onclose = function (evt) {
+            //     showErrorLogin();
+            //     toastr.error("حصل خطأ فني الرجاء النواصل مع الادارة");
+            //
+            //     ws = null;
+            // }
             ws.onmessage = function (evt) {
                 let resp = evt.data;
                 console.log(resp)

@@ -24,6 +24,17 @@ class WhatsappController extends Controller {
 
     }
 
+    function refreshMyGroup()
+    {
+        $groups = auth()->user()->getGroupsManage();
+        whatsapp()->connect(auth()->user());
+        foreach ($groups as $group)
+        {
+            $group->getInfo(auth()->user());
+        }
+        return $this->response()->success('تم التحديث بنجاح');
+    }
+
     function refresh()
     {
 //        if ((!$this->user->imported_at) || Carbon::now()->diffInDays($this->user->imported_at) > 15)
@@ -69,7 +80,6 @@ class WhatsappController extends Controller {
             {
                 $id = auth()->user()->getGoAuth(true);
                 whatsapp()->logout();
-
                 return $this->response()->error("الرجاء تسجيل الدخول بنفس الرقم المسجل لدينا")->with('id', $id);
             }
             $data                  = [];
@@ -87,7 +97,7 @@ class WhatsappController extends Controller {
             $data['is24h']         = $responseData->is24h;
 
             if ($user->detail)
-                $user->detail()->update($data);
+                $user->detail->update($data);
             else
                 $user->detail()->create($data);
             auth()->user()->update(['is_go_login' => true]);

@@ -84,7 +84,10 @@ class WhatsappLibrary {
         \Log::info("start import", (array)$response->object());
 
         $items = $this->checkResponse($response);
-
+        if ($items === 0 || $items === -1)
+        {
+            return $items;
+        }
         $chats = [];
 
         if ($items !== 0 && $items !== -1)

@@ -28,8 +28,10 @@ function whatsapp()
 
 function get_image_name($name)
 {
-    $url = strtok($name, "?");
-    return substr(strrchr($url, '/'), 1);
+    $urls     = explode('?', $name);
+    $segments = explode('/', $urls[0]);
+    \Illuminate\Support\Facades\Log::info($segments[sizeof($segments) - 1] ?? '');
+    return $segments[sizeof($segments) - 1] ?? '';
 }
 
 function checkWhatsappResponse($status)

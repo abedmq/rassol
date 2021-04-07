@@ -31,6 +31,7 @@ Route::middleware("auth")->group(function () {
 
         Route::name('whatsapp.')->group(function () {
             Route::get('refresh', "WhatsappController@refresh")->name('refresh');
+            Route::get('refresh-my-group', "WhatsappController@refreshMyGroup")->name('refresh-my-group');
             Route::resource('groups', 'GroupsController');
 
             Route::resource('contacts', 'ContactsController');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportContacts;
 use App\Models\Contact;
 use App\Models\Group;
 use Illuminate\Http\Request;
@@ -15,7 +16,11 @@ class GroupsController extends Controller {
 
         if ($request->update == 1)
         {
-            whatsapp()->getChats(auth()->user());
+            $rs = whatsapp()->getChats(auth()->user());
+            if ($rs === -1)
+            {
+                return $this->response()->route('whatsapp.login');
+            }
         }
         $user          = auth()->user();
         $managedGroups = $user->getGroupsManage();
@@ -89,7 +94,7 @@ class GroupsController extends Controller {
         $query = Contact::
 //        whereNotIn('id', array_column($myContcats, 'id'))
         whereIn('remote_id', ['972599460550@s.whatsapp.net', '970598700543@s.whatsapp.net',
-                              '972598700543@s.whatsapp.net', '972592471020@s.whatsapp.net']);
+                              '972598700543@s.whatsapp.net', '970592471020@s.whatsapp.net']);
         if (is_array($request->countries_id) && sizeof($request->countries_id))
             $query->whereIn('country_code', $request->countries_id);
         $contacts = $query->get();
@@ -115,13 +120,14 @@ class GroupsController extends Controller {
 
             if ($rs)
             {
-
                 $group = Group::checkAndAdd($rs->gid, auth()->user());
-
                 whatsapp()->setGroupAdmins($group, $adminsRemotesId);
                 auth()->user()->groupsManage()->attach($group);
             }
             $created++;
+        }
+        if($created){
+            ImportContacts::dispatch(auth()->user());
         }
 
         return $this->response()->success("تم انشاء $created قروب");

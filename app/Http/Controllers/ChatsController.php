@@ -99,7 +99,9 @@ class ChatsController extends Controller {
             } else
                 $msg->addGroups($rs, $recipients);
         }
-        return $this->response()->success("تم الارسال بنجاح");
+
+        return $this->response()->success("تم الارسال بنجاح")->with('view',view('front.whatsapp.partials.single_message',
+        ['message'=>$msg])->render());
     }
 
 

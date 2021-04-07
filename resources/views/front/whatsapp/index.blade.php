@@ -1,4 +1,4 @@
-@extends('layout.front.app',['title'=>'المحادثات'])
+@extends('layout.front.app',['title'=>''])
 
 @section('css')
     <style>
@@ -53,6 +53,21 @@
             right: auto;
         }
 
+        .dropzone.dropzone-default.dropzone-primary {
+            padding: 0;
+        }
+
+        .whatsapp-editor {
+            min-height: 140px !important;
+        }
+
+        .whatsapp-send-float {
+            position: absolute;
+            top: -6px;
+            width: 100%;
+            left: 21px;
+        }
+
 
     </style>
 @endsection
@@ -102,6 +117,9 @@
                                     <span></span>
                                     <b class="d-inline-block ml-4">اختيار الكل</b>
                                 </label>
+                                <a href="{{route('whatsapp.refresh-my-group')}}" class="btn btn-outline-primary btn-xs" style="position: absolute;left: 28px;top: 80px;">
+                                    <i class="fas fa-sync"></i>
+                                </a>
                                 <hr>
 
                             </div>
@@ -155,12 +173,12 @@
                                 </a>
                             </div>
                             <br>
-                            <div class="input-group input-group-solid">
-                                <a href="javascript:;" class="btn btn-success w-100 create-new-groups"
-                                   data-toggle="modal" data-target="#createGroupsModal"
-                                >انشاء مجموعات
-                                </a>
-                            </div>
+{{--                            <div class="input-group input-group-solid">--}}
+{{--                                <a href="javascript:;" class="btn btn-success w-100 create-new-groups"--}}
+{{--                                   data-toggle="modal" data-target="#createGroupsModal"--}}
+{{--                                >انشاء مجموعات--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
                         @else
                             <div class="input-group input-group-solid">
                                 <a href="{{route('whatsapp.refresh')}}" class="btn btn-info w-100 ">تحديث
@@ -177,7 +195,7 @@
             <!--begin::Content-->
             <div class="flex-row-fluid ml-lg-8" id="kt_chat_content">
                 <!--begin::Card-->
-                <div class="card card-custom h-100">
+                <div class="card card-custom h-90">
                     <!--begin::Header-->
                     <div class="card-header align-items-center px-4 py-3">
                         <div class="text-left flex-grow-1">
@@ -206,28 +224,20 @@
                         </div>
                         <div class="text-center text-center">
                             <div class="symbol-group symbol-hover justify-content-center">
-                                @if(isset($groupSelected)&&$groupSelected)
-                                    @foreach($groupSelected->contacts->take(5)??[] as $contact)
-                                        <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip"
-                                             title="{{$contact->getMobile()}}">
-                                            <img alt="Pic" src="{{$contact->getImage()}}"/>
-                                        </div>
-                                    @endforeach
-                                    @if(($remainCount=($groups[0]->contacts->count() - 5))>0)
-                                        <div class="symbol symbol-35 symbol-circle symbol-light-success"
-                                             data-toggle="tooltip"
-                                             title="Invite someone">
-                                            <span class="symbol-label font-weight-bold">+{{$remainCount}}</span>
-                                        </div>
-                                    @endif
-                                @endif
+                                @foreach($groups as $group)
+                                    <div class="symbol symbol-35 symbol-circle group-image-wrapper group-image-{{$group->id}}"
+                                         style="display: none;"
+                                         title="{{$group->subject}}">
+                                        <img alt="{{$group->subject}}" src="{{$group->getImage()}}"/>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="text-right flex-grow-1">
                             <!--begin::Dropdown Menu-->
                             <div class="dropdown dropdown-inline">
-                                <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if(auth()->user()->canCreateNewGroup())
+                                <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md"  data-toggle="modal" data-target="#createGroupsModal">
 															<span class="svg-icon svg-icon-lg">
 																<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Add-user.svg-->
 																<svg xmlns="http://www.w3.org/2000/svg"
@@ -247,24 +257,8 @@
                                                                 <!--end::Svg Icon-->
 															</span>
                                 </button>
-                                <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-md">
-                                    <!--begin::Navigation-->
-                                    <ul class="navi navi-hover py-5">
-                                        @if($groupSelected)
+                                    @endif
 
-                                            <li class="navi-item">
-                                                <a href="javascript:;" data-toggle="modal" data-target="#add-member"
-                                                   class="navi-link">
-																		<span class="navi-icon">
-																			<i class="flaticon2-drop"></i>
-																		</span>
-                                                    <span class="navi-text">اضافة عضو</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                    </ul>
-                                    <!--end::Navigation-->
-                                </div>
                             </div>
                             <!--end::Dropdown Menu-->
                         </div>
@@ -291,20 +285,22 @@
                         {{--                        <textarea class="form-control border-0 p-0" rows="2" placeholder="نص الرسالة" name="msg"--}}
                         {{--                                  id="msg"--}}
                         {{--                                  required style="    width: 80%;display: inline-block;"></textarea>--}}
-                        <div id="whatsapp-editor-container">
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mt-5">
-                            <div class="mr-3">
-                                {{--                                <label for="profile_avatar">--}}
-                                {{--                                    <i class="flaticon2-photograph icon-lg"></i>--}}
-                                {{--                                </label>--}}
+                        <div style="position: relative">
+                            <div id="whatsapp-editor-container">
                             </div>
-                            <div>
-                                <button type="submit"
-                                        class="btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">
-                                    ارسال
-                                    <i class="fas fa-spinner fa-spin loadera" style="display: none;"></i>
-                                </button>
+                            <div class="d-flex align-items-center justify-content-between mt-5 whatsapp-send ">
+                                <div class="mr-3">
+                                    {{--                                <label for="profile_avatar">--}}
+                                    {{--                                    <i class="flaticon2-photograph icon-lg"></i>--}}
+                                    {{--                                </label>--}}
+                                </div>
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">
+                                        ارسال
+                                        <i class="fas fa-spinner fa-spin loadera" style="display: none;"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <!--begin::Compose-->
@@ -368,8 +364,6 @@
                         @csrf
 
                         <div class="modal-body">
-
-
                             <div class="form-group m-form__group {{$errors->has('count')?"has-danger":""}}">
                                 <label>اسم المجموعة :</label>
                                 <input id="name" class="form-control" name="name"
@@ -489,7 +483,7 @@
         //
         // });
         var editor = $("#whatsapp-editor-container").whatsappEditor();
-
+        $('.whatsapp-send').addClass('whatsapp-send-float');
         KTUtil.on(table, 'thead th .checkbox > input', 'change', function (e) {
             var checkboxes = KTUtil.findAll(table, 'tbody td .checkbox > input');
 
@@ -508,11 +502,16 @@
             obj.find('.loadera').show();
             obj.find('[type=submit]').attr('disabled', true);
             $.get('{{route('whatsapp.groups.index')}}?update=' + update).done(function (data) {
-                if (data.status == 'success') {
-                    $('#contacts-modal .modal-body').html(data.view);
-                    $('#contacts-modal').modal('show');
+                if (data.redirect) {
+                    window.location=data.redirect;
                 } else {
-                    toastr.error(data.msg);
+
+                    if (data.status == 'success') {
+                        $('#contacts-modal .modal-body').html(data.view);
+                        $('#contacts-modal').modal('show');
+                    } else {
+                        toastr.error(data.msg);
+                    }
                 }
             }).fail(function (data) {
                 ajaxFail(data);
@@ -557,7 +556,8 @@
                         $('#msg').val('');
                         KTDropzoneDemo.dropzoneChat().removeAllFiles(true);
                         editor.find(".whatsapp-editor").html('');
-                        loadMsgs();
+                        $('.messages').append(data.view);
+                        // loadMsgs();
                         toastr.success(data.msg);
                     } else {
                         toastr.error(data.msg);
@@ -601,6 +601,13 @@
         }
 
         $('body').on('change', '.groups_id', function () {
+
+            if ($(this).is(':checked')) {
+                $('.group-image-wrapper.group-image-' + $(this).val()).show();
+            } else {
+                $('.group-image-wrapper.group-image-' + $(this).val()).hide();
+            }
+
             if ($('.groups_id').not('.hidden').length == $('.groups_id:checked').not('.hidden').length)
                 $('.choose-all-groups').attr('checked', true);
             else
@@ -608,6 +615,11 @@
         });
 
         $('body').on('change', '.choose-all-groups', function () {
+            if ($(this).is(':checked')) {
+                $('.group-image-wrapper').show();
+            } else {
+                $('.group-image-wrapper').hide();
+            }
             $('.groups_id').not('.hidden').attr('checked', $(this).is(":checked")).change();
         });
         $('body').on('change', '.recipients_id', function () {

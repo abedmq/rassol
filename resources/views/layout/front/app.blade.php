@@ -92,6 +92,8 @@ License: You must have a valid license purchased only from themeforest(the above
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Subheader-->
                 <div class="subheader py-3 py-lg-8 subheader-transparent" id="kt_subheader">
+                    @if(isset($title)&&$title)
+
                     <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                         <!--begin::Info-->
                         <div class="d-flex align-items-center mr-1">
@@ -227,8 +229,10 @@ License: You must have a valid license purchased only from themeforest(the above
                         </div>
                         <!--end::Toolbar-->
                     </div>
+                    @endif
                 </div>
                 <!--end::Subheader-->
+
                 <!--begin::Entry-->
                 <div class="d-flex flex-column-fluid">
                     <!--begin::Container-->
