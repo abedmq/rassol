@@ -48,7 +48,7 @@ class ImportContacts implements ShouldQueue {
             }
             \Log::info("start new import from job id:" . $this->user->id);
 
-            StartImport::dispatch($this->user, true);
+//            StartImport::dispatch($this->user, true);
 
         }
 
