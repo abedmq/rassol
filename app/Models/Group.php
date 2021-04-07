@@ -132,6 +132,17 @@ class Group extends Model {
                     return $this->addData($groupInfo, $user);
                 }
             }
+            $profile    = json_decode($response->profile);
+            if ((isset($profile->status) && $profile->status)||json_last_error())
+            {
+                $this->update(['image' => 'default']);
+            } else
+            {
+                $name = "images/" . get_image_name($profile->eurl);
+                Storage::put('public/' . $name, file_get_contents($profile->eurl));
+                $this->update(['image' => $name]);
+            }
+
         } else
         {
             da($response);
