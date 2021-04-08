@@ -17,7 +17,12 @@ class User extends Model {
     static function import($line)
     {
         $columns = explode(':', $line);
-        self::create($columns);
+        $data    = [];
+        foreach ($columns as $key => $val)
+        {
+            $data['column_' . ($key + 1)] = $val;
+        }
+        self::create($data);
 
 
 //        $data    = [
