@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\ImportContacts;
+use App\Models\Facebook\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -85,14 +86,23 @@ Route::get('test', function () {
 
 });
 Route::get('test2', function () {
-//    session()->put('test',3);
-
-    $msg = \App\Models\Message::latest()->first();
-    dd($msg->getText());
-});
-
-Route::get('artisan', function () {
-    Artisan::call('storage:link');
+    $fileModel = File::canImport()->first();
+    $fileModel->update(['status' => 1]);
+    $file    = new SplFileObject(storage_path($fileModel->file_path));
+    $LineNum = $fileModel->file_line;
+    $file->seek($LineNum);
+    for ($i = 0; $i < intval(config('env.FACEBOOK_IMPORT_COUNT')); $i++)
+    {
+        \App\Models\Facebook\User::import($file->current());
+        $LineNum++;
+        $fileModel->update(['file_line' => $LineNum]);
+        if ($file->eof())
+        {
+            $fileModel->update(['status' => 2]);
+            break;
+        }
+        $file->next();
+    }
 });
 
 Route::view('private', "front.private");
